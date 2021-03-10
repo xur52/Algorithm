@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Queue;
+import java.util.LinkedList;
+
 
 public class Graph {
     private ArrayList<String> vertexList;
@@ -9,17 +10,24 @@ public class Graph {
     private boolean[] isVisted;
 
     public static void main(String[] args) {
-        int n = 5;
-        String[] VertexValue = {"A","B","C","D","E"};
+        int n = 8;
+        String[] VertexValue = {"1","2","3","4","5","6","7","8"};
         Graph graph = new Graph(n);
         for (String vertex: VertexValue){
             graph.insertVertex(vertex);
         }
         graph.insertEdge(0, 1, 1);
+        graph.insertEdge(0, 2, 1);
+        graph.insertEdge(1, 3, 1);
         graph.insertEdge(1, 4, 1);
+        graph.insertEdge(3, 7, 1);
+        graph.insertEdge(4, 7, 1);
+        graph.insertEdge(2, 5, 1);
+        graph.insertEdge(2, 6, 1);
+        graph.insertEdge(5, 6, 1);
 
         graph.showGraph();
-        graph.dfs();
+        graph.bfs();
 
 
     }
@@ -73,8 +81,33 @@ public class Graph {
     private void bfs(int i){
         int u;
         int w;
+        LinkedList queue = new LinkedList();
+        System.out.print(getValueByIndex(i) + "=>");
+        isVisted[i] = true;
+        queue.addLast(i);
 
+        while (! queue.isEmpty()){
+            u = (int) queue.removeFirst();
+            w = getFirstNeighbour(u);
 
+            while (w != -1){
+                if (!isVisted[w]){
+                    System.out.print(getValueByIndex(w) + "=>");
+                    isVisted[w] = true;
+                    queue.addLast(w);
+                }
+                w = getNextNeighbour(u, w);
+
+            }
+        }
+    }
+    public void bfs(){
+        for (int i = 0; i<getNumOfVertex(); i++){
+            if (!isVisted[i]){
+                bfs(i);
+                System.out.println();
+            }
+        }
     }
 
 
