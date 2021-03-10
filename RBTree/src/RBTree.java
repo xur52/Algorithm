@@ -148,22 +148,26 @@ public class RBTree <k extends Comparable<k>, v>{
 
     }
 
-    private void insert(RBNode node){
+    public void insert(RBNode node){
+
         //第一步，查找当前node的父节点
         RBNode parent = null;
         RBNode x = this.root;
 
         while (x != null){
             parent = x;
-            int cmp = node.getKey().compareTo(x.getKey());
-
+            Comparable v1 = node.getKey();
+            Comparable v2 =  x.getKey();
+            int cmp = v1.compareTo(v2);
             if (cmp > 0){
                 x = x.right;
+
             }else if (cmp == 0){
                 x.setValue(node.getValue());
                 return;
             }else{
                 x = x.left;
+
             }
         }
         node.setParent(parent);
